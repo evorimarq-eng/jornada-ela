@@ -1025,9 +1025,45 @@
       border-top: 1px solid rgba(255,255,255,0.04);
     }
 
-    .patrocinadores__label { /* rótulo "Realização e apoio" */ }
-    .patrocinadores__list  { /* logos/nomes em linha */ }
-    .patrocinador__item    { /* cada nome/logo */ }
+    .patrocinadores__label {
+      display: block;
+      text-align: center;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray-800);
+      margin-bottom: 32px;
+    }
+
+    .patrocinadores__list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 12px 0;
+    }
+
+    .patrocinador__item {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-800);
+      padding-inline: 28px;
+      transition: color 0.2s ease;
+    }
+
+    /* Separador pontilhado entre nomes */
+    .patrocinador__item:not(:last-child)::after {
+      content: '·';
+      margin-left: 28px;
+      color: var(--gray-800);
+    }
+
+    .patrocinador__item:hover {
+      color: var(--gray-600);
+    }
 
 
     /* ============================================================
@@ -1039,11 +1075,92 @@
       border-top: 1px solid var(--gold-border);
     }
 
-    .footer__inner   { /* flex: brand · contato · social */ }
-    .footer__brand   { /* wordmark */ }
-    .footer__contact { /* whatsapp link */ }
-    .footer__social  { /* links de redes */ }
-    .footer__copy    { /* linha de copyright */ }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .footer__brand {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .footer__brand span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .footer__contact {
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer__contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--gray-600);
+      transition: color 0.2s ease;
+    }
+
+    .footer__contact a:hover {
+      color: var(--gold);
+    }
+
+    .footer__contact svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      flex-shrink: 0;
+    }
+
+    .footer__social {
+      display: flex;
+      justify-content: flex-end;
+      gap: 24px;
+    }
+
+    .footer__social a {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-800);
+      transition: color 0.2s ease;
+    }
+
+    .footer__social a:hover {
+      color: var(--gold);
+    }
+
+    .footer__copy {
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 11px;
+      color: rgba(255,255,255,0.1);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .footer__inner {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 24px;
+      }
+
+      .footer__social {
+        justify-content: center;
+      }
+    }
 
 
     /* ============================================================
@@ -1647,6 +1764,14 @@
   ============================================================ -->
   <section id="patrocinadores">
     <div class="container">
+      <span class="patrocinadores__label">Realização e apoio</span>
+      <ul class="patrocinadores__list">
+        <!-- TODO: substituir por tags <img> com os logos reais quando disponíveis -->
+        <li class="patrocinador__item">Evori Marq</li>
+        <li class="patrocinador__item">Expresso Matinal</li>
+        <li class="patrocinador__item">Ana Diniz Comunicações</li>
+        <li class="patrocinador__item">CS Advogadas</li>
+      </ul>
     </div>
   </section>
 
@@ -1655,16 +1780,71 @@
   ============================================================ -->
   <footer>
     <div class="container">
+
       <div class="footer__inner">
+
+        <div class="footer__brand">
+          Jornada <span>ELA</span>
+        </div>
+
+        <div class="footer__contact">
+          <!-- TODO: substituir [WHATSAPP] pelo número com DDI+DDD (ex: 5515999999999) -->
+          <a href="https://wa.me/[WHATSAPP]" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            WhatsApp · [WHATSAPP]
+          </a>
+        </div>
+
+        <div class="footer__social">
+          <!-- TODO: adicionar URLs reais das redes sociais -->
+          <a href="#" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+
       </div>
+
+      <p class="footer__copy">
+        © 2025 Jornada ELA — Estrutura. Linguagem. Autoridade. — Sorocaba, SP
+      </p>
+
     </div>
   </footer>
 
   <!-- ============================================================
-       STICKY CTA (mobile)
+       STICKY CTA (mobile) — visível abaixo de 600px via CSS
   ============================================================ -->
   <div id="sticky-cta" aria-label="Chamada para ação fixada">
-    <div class="sticky-cta__inner">
+    <div class="sticky-cta__inner" style="
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    ">
+      <div>
+        <p class="sticky-cta__label" style="
+          font-size: 9px;
+          font-weight: 500;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--gray-600);
+          margin-bottom: 2px;
+        ">Jornada ELA · 23 mai</p>
+        <!-- TODO: substituir pelo valor real -->
+        <p class="sticky-cta__price" style="
+          font-family: var(--serif);
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--gold);
+          line-height: 1;
+        ">[ VALOR ]</p>
+      </div>
+      <!-- TODO: substituir [LINK_CHECKOUT] pelo link real -->
+      <a href="[LINK_CHECKOUT]" class="btn-cta" target="_blank" rel="noopener"
+         style="padding: 13px 24px; font-size: 12px;">
+        Garantir vaga
+      </a>
     </div>
   </div>
 
