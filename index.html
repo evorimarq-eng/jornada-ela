@@ -217,12 +217,135 @@
       pointer-events: none;
     }
 
-    .hero__wordmark   { /* nome do evento em letras espaçadas */ }
-    .hero__headline   { /* título/tagline principal, display size */ }
-    .hero__sub        { /* frase de impacto secundária */ }
-    .hero__meta       { /* data · local · vagas */ }
-    .hero__cta        { /* botão principal */ }
-    .hero__scroll     { /* indicador de scroll animado */ }
+    /* Wordmark: "JORNADA ELA" pequeno, espaçado, dourado */
+    .hero__wordmark {
+      display: block;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 36px;
+    }
+
+    /* Headline: as três palavras da tagline em display */
+    .hero__headline {
+      font-family: var(--serif);
+      font-size: clamp(54px, 9vw, 116px);
+      font-weight: 700;
+      line-height: 0.93;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .hero__headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* Frase secundária */
+    .hero__sub {
+      font-size: clamp(14px, 1.6vw, 17px);
+      font-weight: 300;
+      color: var(--gray-400);
+      letter-spacing: 0.02em;
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* Badge de escassez acima dos metadados */
+    .hero__badge {
+      margin-bottom: 40px;
+    }
+
+    /* Metadados: data · horário · local */
+    .hero__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 56px;
+      border: 1px solid rgba(255,255,255,0.07);
+      width: fit-content;
+    }
+
+    .hero__meta-item {
+      display: flex;
+      flex-direction: column;
+      padding: 18px 28px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .hero__meta-item:last-child {
+      border-right: none;
+    }
+
+    .hero__meta-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+
+    .hero__meta-value {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray-200);
+      white-space: nowrap;
+    }
+
+    /* Indicador de scroll */
+    .hero__scroll {
+      position: absolute;
+      bottom: 40px;
+      left: var(--gutter);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+    }
+
+    .hero__scroll-line {
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      animation: scrollPulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; width: 24px; }
+      50%       { opacity: 0.8; width: 48px; }
+    }
+
+    /* Responsivo hero */
+    @media (max-width: 600px) {
+      .hero__meta {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .hero__meta-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        padding: 14px 20px;
+      }
+
+      .hero__meta-item:last-child {
+        border-bottom: none;
+      }
+
+      .hero__scroll {
+        display: none;
+      }
+    }
 
 
     /* ============================================================
@@ -428,7 +551,52 @@
   ============================================================ -->
   <section id="hero">
     <div class="container">
-      <!-- conteúdo será preenchido na próxima etapa -->
+
+      <span class="hero__wordmark">Jornada ELA</span>
+
+      <h1 class="hero__headline">
+        Estrutura.<br>
+        <em>Lin</em>guagem.<br>
+        Autoridade.
+      </h1>
+
+      <p class="hero__sub">
+        O evento que preenche o que a faculdade de direito não ensinou:
+        como organizar, comunicar e posicionar uma carreira na advocacia.
+      </p>
+
+      <div class="hero__badge">
+        <span class="scarcity-badge">
+          <span class="scarcity-badge__dot" aria-hidden="true"></span>
+          Apenas 25 vagas — evento presencial e íntimo
+        </span>
+      </div>
+
+      <div class="hero__meta" role="list">
+        <div class="hero__meta-item" role="listitem">
+          <span class="hero__meta-label">Data</span>
+          <span class="hero__meta-value">23 de maio de 2025</span>
+        </div>
+        <div class="hero__meta-item" role="listitem">
+          <span class="hero__meta-label">Horário</span>
+          <span class="hero__meta-value">8h às 12h</span>
+        </div>
+        <div class="hero__meta-item" role="listitem">
+          <span class="hero__meta-label">Local</span>
+          <span class="hero__meta-value">Espaço More · Sorocaba, SP</span>
+        </div>
+      </div>
+
+      <!-- TODO: substituir [LINK_CHECKOUT] pelo link real da plataforma de venda -->
+      <a href="[LINK_CHECKOUT]" class="btn-cta" target="_blank" rel="noopener">
+        Garantir minha vaga
+      </a>
+
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <span class="hero__scroll-line"></span>
+      <span>Saiba mais</span>
     </div>
   </section>
 
