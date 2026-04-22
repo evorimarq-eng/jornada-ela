@@ -612,12 +612,127 @@
       background: var(--bg);
     }
 
-    .programacao__header  { /* título centrado */ }
-    .cronograma           { /* lista vertical com linha-guia */ }
-    .cronograma__item     { /* cada bloco: hora · dot · conteúdo */ }
-    .cronograma__hora     { /* horário em dourado */ }
-    .cronograma__dot      { /* círculo na linha do tempo */ }
-    .cronograma__content  { /* bloco · título · palestrante */ }
+    .programacao__header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    /* Timeline container */
+    .cronograma {
+      max-width: 680px;
+      margin-inline: auto;
+      position: relative;
+    }
+
+    /* Linha vertical guia */
+    .cronograma::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      left: 76px;   /* alinha com os dots */
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--gold-border) 8%,
+        var(--gold-border) 92%,
+        transparent
+      );
+    }
+
+    .cronograma__item {
+      display: grid;
+      grid-template-columns: 76px 16px 1fr;
+      gap: 0 20px;
+      align-items: flex-start;
+      padding-block: 24px;
+      position: relative;
+    }
+
+    .cronograma__item:not(:last-child) {
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .cronograma__hora {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      padding-top: 2px;
+      text-align: right;
+    }
+
+    /* Dot na linha do tempo */
+    .cronograma__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 5px;
+      position: relative;
+      z-index: 1;
+      justify-self: center;
+    }
+
+    .cronograma__dot--hollow {
+      background: var(--bg);
+      border: 1px solid var(--gold-border);
+    }
+
+    .cronograma__content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cronograma__bloco {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .cronograma__titulo {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.25;
+    }
+
+    .cronograma__palestrante {
+      font-size: 13px;
+      color: var(--gray-600);
+    }
+
+    .cronograma__obs {
+      font-size: 13px;
+      color: var(--gray-600);
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .cronograma::before {
+        left: 60px;
+      }
+
+      .cronograma__item {
+        grid-template-columns: 60px 14px 1fr;
+        gap: 0 14px;
+      }
+
+      .cronograma__hora {
+        font-size: 12px;
+      }
+
+      .cronograma__titulo {
+        font-size: 16px;
+      }
+    }
 
 
     /* ============================================================
@@ -1001,6 +1116,74 @@
   ============================================================ -->
   <section id="programacao">
     <div class="container">
+
+      <div class="programacao__header">
+        <span class="section-label">23 de maio de 2025</span>
+        <h2 class="section-title">Programação do dia</h2>
+      </div>
+
+      <ol class="cronograma">
+
+        <li class="cronograma__item">
+          <span class="cronograma__hora">8h00</span>
+          <span class="cronograma__dot cronograma__dot--hollow" aria-hidden="true"></span>
+          <div class="cronograma__content">
+            <span class="cronograma__bloco">Abertura</span>
+            <h3 class="cronograma__titulo">Boas-vindas e apresentação</h3>
+          </div>
+        </li>
+
+        <li class="cronograma__item">
+          <span class="cronograma__hora">9h00</span>
+          <span class="cronograma__dot" aria-hidden="true"></span>
+          <div class="cronograma__content">
+            <span class="cronograma__bloco">Bloco E — Estrutura</span>
+            <h3 class="cronograma__titulo">Organizar o escritório é organizar sua carreira</h3>
+            <span class="cronograma__palestrante">Dra. Carolina Silva</span>
+          </div>
+        </li>
+
+        <li class="cronograma__item">
+          <span class="cronograma__hora">9h50</span>
+          <span class="cronograma__dot" aria-hidden="true"></span>
+          <div class="cronograma__content">
+            <span class="cronograma__bloco">Bloco A — Autoridade</span>
+            <h3 class="cronograma__titulo">Presença profissional sem exposição excessiva</h3>
+            <span class="cronograma__palestrante">Evelyn Soeiro (Evori)</span>
+          </div>
+        </li>
+
+        <li class="cronograma__item">
+          <span class="cronograma__hora">10h30</span>
+          <span class="cronograma__dot cronograma__dot--hollow" aria-hidden="true"></span>
+          <div class="cronograma__content">
+            <span class="cronograma__bloco">Intervalo</span>
+            <h3 class="cronograma__titulo">Coffee break</h3>
+          </div>
+        </li>
+
+        <li class="cronograma__item">
+          <span class="cronograma__hora">10h45</span>
+          <span class="cronograma__dot" aria-hidden="true"></span>
+          <div class="cronograma__content">
+            <span class="cronograma__bloco">Bloco L — Linguagem</span>
+            <h3 class="cronograma__titulo">Como se posicionar com segurança sem precisar parecer outra pessoa</h3>
+            <span class="cronograma__palestrante">Ana Diniz</span>
+          </div>
+        </li>
+
+        <li class="cronograma__item">
+          <span class="cronograma__hora">11h30</span>
+          <span class="cronograma__dot" aria-hidden="true"></span>
+          <div class="cronograma__content">
+            <span class="cronograma__bloco">Encerramento</span>
+            <h3 class="cronograma__titulo">Lançamento da 1ª Turma ELA</h3>
+            <p class="cronograma__obs">Acesso antecipado e condições exclusivas para participantes do evento</p>
+          </div>
+        </li>
+
+      </ol>
+
     </div>
   </section>
 
