@@ -503,14 +503,105 @@
       background: var(--bg-alt);
     }
 
-    .metodo__header   { /* título centrado */ }
-    .metodo__grid     { /* 3 colunas: E · L · A */ }
-    .metodo__card     { /* card de cada bloco */ }
-    .metodo__letter   { /* letra gigante decorativa */ }
-    .metodo__tag      { /* rótulo "Bloco 01" */ }
-    .metodo__name     { /* nome do bloco */ }
-    .metodo__desc     { /* descrição curta */ }
-    .metodo__result   { /* "Resultado esperado:" */ }
+    .metodo__header {
+      text-align: center;
+      max-width: 560px;
+      margin-inline: auto;
+      margin-bottom: 64px;
+    }
+
+    .metodo__header p {
+      font-size: 16px;
+      color: var(--gray-600);
+      line-height: 1.75;
+    }
+
+    .metodo__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .metodo__card {
+      position: relative;
+      background: var(--bg-card);
+      padding: 48px 36px 40px;
+      overflow: hidden;
+      transition: background 0.25s ease;
+    }
+
+    .metodo__card:hover {
+      background: #1c1b19;
+    }
+
+    /* Letra decorativa de fundo */
+    .metodo__letter {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-family: var(--serif);
+      font-size: 100px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.06;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .metodo__tag {
+      display: block;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .metodo__name {
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+
+    .metodo__desc {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    /* Linha dourada fina separando desc do resultado */
+    .metodo__card-divider {
+      display: block;
+      height: 1px;
+      background: var(--gold-border);
+      margin-bottom: 20px;
+    }
+
+    .metodo__result {
+      font-size: 13px;
+      color: var(--gray-400);
+      line-height: 1.65;
+    }
+
+    .metodo__result strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .metodo__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metodo__card {
+        padding: 36px 28px 32px;
+      }
+    }
 
 
     /* ============================================================
@@ -836,6 +927,70 @@
   ============================================================ -->
   <section id="metodo">
     <div class="container">
+
+      <div class="metodo__header">
+        <span class="section-label">A metodologia</span>
+        <h2 class="section-title">O Método ELA</h2>
+        <p>
+          Três pilares construídos a partir das lacunas reais da formação
+          jurídica — e do que advogadas precisam para crescer com consistência.
+        </p>
+      </div>
+
+      <div class="metodo__grid">
+
+        <!-- E — ESTRUTURA -->
+        <div class="metodo__card">
+          <span class="metodo__letter" aria-hidden="true">E</span>
+          <span class="metodo__tag">Bloco 01</span>
+          <h3 class="metodo__name">Estrutura</h3>
+          <p class="metodo__desc">
+            Organização do escritório, rotina, financeiro, agenda e definição
+            do cliente ideal. Tudo que sustenta uma prática sólida e
+            permite crescer sem caos.
+          </p>
+          <span class="metodo__card-divider" aria-hidden="true"></span>
+          <p class="metodo__result">
+            <strong>Resultado →</strong> clareza operacional e estabilidade
+            para crescer com critério.
+          </p>
+        </div>
+
+        <!-- L — LINGUAGEM -->
+        <div class="metodo__card">
+          <span class="metodo__letter" aria-hidden="true">L</span>
+          <span class="metodo__tag">Bloco 02</span>
+          <h3 class="metodo__name">Linguagem</h3>
+          <p class="metodo__desc">
+            Como se apresentar, explicar sua atuação e comunicar valor com
+            segurança — sem precisar parecer outra pessoa ou abrir mão
+            da própria identidade.
+          </p>
+          <span class="metodo__card-divider" aria-hidden="true"></span>
+          <p class="metodo__result">
+            <strong>Resultado →</strong> confiança para se posicionar em
+            qualquer contexto profissional.
+          </p>
+        </div>
+
+        <!-- A — AUTORIDADE -->
+        <div class="metodo__card">
+          <span class="metodo__letter" aria-hidden="true">A</span>
+          <span class="metodo__tag">Bloco 03</span>
+          <h3 class="metodo__name">Autoridade</h3>
+          <p class="metodo__desc">
+            Presença digital, reputação, consistência de conteúdo e
+            posicionamento estratégico. Como ser reconhecida pelo que
+            você é — não apenas pelo que faz.
+          </p>
+          <span class="metodo__card-divider" aria-hidden="true"></span>
+          <p class="metodo__result">
+            <strong>Resultado →</strong> visibilidade qualificada e
+            reputação consolidada no mercado.
+          </p>
+        </div>
+
+      </div>
     </div>
   </section>
 
