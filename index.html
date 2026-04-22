@@ -952,9 +952,68 @@
       pointer-events: none;
     }
 
-    .investimento__price   { /* valor em display grande */ }
-    .investimento__parcela { /* texto de parcelamento */ }
-    .investimento__cta     { /* botão + nota de local/data */ }
+    .investimento__inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .investimento__vagas {
+      margin-bottom: 48px;
+    }
+
+    .investimento__price-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      margin-bottom: 12px;
+    }
+
+    .investimento__price {
+      font-family: var(--serif);
+      font-size: clamp(64px, 10vw, 108px);
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    /* Quando o valor real não estiver disponível */
+    .investimento__price--placeholder {
+      font-family: var(--sans);
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 300;
+      color: var(--gray-600);
+      letter-spacing: 0.05em;
+      font-style: italic;
+    }
+
+    .investimento__parcela {
+      font-size: 14px;
+      color: var(--gray-600);
+      margin-bottom: 48px;
+      /* descomente quando tiver parcelamento:
+      display: block; */
+      display: none;
+    }
+
+    .investimento__cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .investimento__nota {
+      font-size: 13px;
+      color: var(--gray-600);
+      max-width: 380px;
+      line-height: 1.65;
+    }
 
 
     /* ============================================================
@@ -1533,6 +1592,51 @@
   ============================================================ -->
   <section id="investimento">
     <div class="container">
+      <div class="investimento__inner">
+
+        <span class="section-label">Investimento</span>
+        <h2 class="section-title">Sua vaga na Jornada ELA</h2>
+
+        <div class="investimento__vagas">
+          <span class="scarcity-badge">
+            <span class="scarcity-badge__dot" aria-hidden="true"></span>
+            Apenas 25 vagas disponíveis
+          </span>
+        </div>
+
+        <p class="investimento__price-label">Valor do ingresso</p>
+
+        <!--
+          TODO: quando o valor estiver definido:
+          1. Apague o bloco .investimento__price--placeholder abaixo
+          2. Descomente o bloco com o valor real
+          3. Se houver parcelamento, mude display:none para display:block em .investimento__parcela
+        -->
+
+        <!-- Placeholder: apagar quando tiver o valor real -->
+        <p class="investimento__price">
+          <span class="investimento__price--placeholder">[ INSERIR VALOR ]</span>
+        </p>
+
+        <!-- Valor real: descomente e ajuste
+        <p class="investimento__price">
+          <span style="font-size:0.38em; vertical-align:super; color:var(--gold-light);">R$</span>297
+        </p>
+        <p class="investimento__parcela">ou em até 6× sem juros no cartão</p>
+        -->
+
+        <div class="investimento__cta">
+          <!-- TODO: substituir [LINK_CHECKOUT] pelo link real da plataforma de venda -->
+          <a href="[LINK_CHECKOUT]" class="btn-cta" target="_blank" rel="noopener">
+            Garantir minha vaga agora
+          </a>
+          <p class="investimento__nota">
+            Evento presencial · Espaço More, Sorocaba — SP<br>
+            23 de maio de 2025 · 8h às 12h
+          </p>
+        </div>
+
+      </div>
     </div>
   </section>
 
