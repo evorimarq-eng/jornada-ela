@@ -356,10 +356,72 @@
       background: var(--bg-alt);
     }
 
-    .problema__grid   { /* texto à esq, lista à dir */ }
-    .problema__text   { /* parágrafos do problema */ }
-    .problema__list   { /* itens da lacuna */ }
-    .problema__item   { /* cada item com traço dourado */ }
+    .problema__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: start;
+      margin-top: 52px;
+    }
+
+    .problema__text p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--gray-400);
+      margin-bottom: 20px;
+    }
+
+    .problema__text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .problema__text strong {
+      color: var(--gray-200);
+      font-weight: 500;
+    }
+
+    .problema__list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .problema__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px 24px;
+      background: var(--bg-card);
+      border-left: 2px solid transparent;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .problema__item:hover {
+      border-left-color: var(--gold);
+      background: #1a1917;
+    }
+
+    .problema__item-dash {
+      flex-shrink: 0;
+      width: 16px;
+      height: 1px;
+      background: var(--gold);
+      margin-top: 11px;
+      opacity: 0.6;
+    }
+
+    .problema__item span {
+      font-size: 15px;
+      color: var(--gray-400);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 900px) {
+      .problema__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
 
 
     /* ============================================================
@@ -607,6 +669,56 @@
   ============================================================ -->
   <section id="problema">
     <div class="container">
+
+      <span class="section-label">O ponto de partida</span>
+      <h2 class="section-title">A faculdade de direito<br>não ensina tudo.</h2>
+
+      <div class="problema__grid">
+
+        <div class="problema__text">
+          <p>
+            Você aprendeu a legislação, a jurisprudência, a técnica processual.
+            Mas ninguém te disse como <strong>gerir um escritório</strong>,
+            como <strong>comunicar o seu valor</strong> ou como
+            <strong>construir uma presença profissional</strong> que te diferencie
+            num mercado saturado.
+          </p>
+          <p>
+            Para advogadas — especialmente no início da carreira ou em momentos de
+            transição — essa lacuna tem um custo real: clientes que não entendem
+            o que você faz, agenda sem critério e uma imagem que não representa
+            quem você realmente é.
+          </p>
+          <p>
+            <strong>Não é falta de competência. É falta de estrutura,
+            linguagem e autoridade.</strong>
+          </p>
+        </div>
+
+        <ul class="problema__list">
+          <li class="problema__item">
+            <span class="problema__item-dash" aria-hidden="true"></span>
+            <span>Escritório sem processos claros de organização e captação de clientes</span>
+          </li>
+          <li class="problema__item">
+            <span class="problema__item-dash" aria-hidden="true"></span>
+            <span>Dificuldade em explicar a própria atuação com clareza e segurança</span>
+          </li>
+          <li class="problema__item">
+            <span class="problema__item-dash" aria-hidden="true"></span>
+            <span>Presença digital inexistente ou sem consistência estratégica</span>
+          </li>
+          <li class="problema__item">
+            <span class="problema__item-dash" aria-hidden="true"></span>
+            <span>Sensação de invisibilidade diante de pares com menos qualificação</span>
+          </li>
+          <li class="problema__item">
+            <span class="problema__item-dash" aria-hidden="true"></span>
+            <span>Não saber como crescer sem parecer "vendedora" ou perder a seriedade</span>
+          </li>
+        </ul>
+
+      </div>
     </div>
   </section>
 
