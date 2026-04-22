@@ -1213,6 +1213,51 @@
       }
     }
 
+    /* ============================================================
+       ANIMAÇÕES — reveal on scroll
+       Estado inicial: .reveal (oculto + deslocado para baixo)
+       Estado final:   .reveal.is-visible (visível + posição original)
+       Classe adicionada via JS (IntersectionObserver)
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Headline do hero: deslocamento maior, duração ligeiramente maior */
+    .hero__headline.reveal {
+      transform: translateY(36px);
+      transition-duration: 0.75s;
+    }
+
+    /* Cards com transição suave de opacidade adicional */
+    .metodo__card.reveal,
+    .palestrante__card.reveal,
+    .inclui__item.reveal {
+      transform: translateY(28px);
+    }
+
+    /* Itens de lista: deslocamento menor — já são elementos pequenos */
+    .problema__item.reveal,
+    .cronograma__item.reveal,
+    .oque-e__stat.reveal {
+      transform: translateY(16px);
+    }
+
+    /* Respeita preferência de movimento reduzido do sistema */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        transform: none;
+        transition: opacity 0.3s ease;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1848,7 +1893,134 @@
     </div>
   </div>
 
-  <!-- JS será adicionado em etapa posterior -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ============================================================
+       1. STICKY CTA
+       Mostra a barra fixada no mobile apenas quando nenhum dos
+       botões CTA principais (hero e investimento) está visível.
+    ============================================================ */
+    var stickyCta  = document.getElementById('sticky-cta');
+    var ctaTargets = [
+      document.querySelector('#hero .btn-cta'),
+      document.querySelector('#investimento .btn-cta'),
+    ].filter(Boolean);
+
+    if (stickyCta && ctaTargets.length) {
+      var visibleCtas = new Set();
+
+      var ctaObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) visibleCtas.add(entry.target);
+          else                      visibleCtas.delete(entry.target);
+        });
+        /*
+         * CSS já esconde o sticky em viewports >= 600px via display:none.
+         * Aqui apenas sobrescrevemos o display em mobile:
+         * '' → deixa o CSS decidir (block em mobile, none em desktop)
+         * 'none' → oculta forçado quando um CTA principal está visível
+         */
+        stickyCta.style.display = visibleCtas.size ? 'none' : '';
+      }, { threshold: 0.5 });
+
+      ctaTargets.forEach(function (el) { ctaObserver.observe(el); });
+    }
+
+    /* ============================================================
+       2. REVEAL ON SCROLL
+       IntersectionObserver adiciona .is-visible aos elementos com
+       .reveal quando eles entram na viewport, disparando a transição
+       CSS definida acima.
+    ============================================================ */
+    var SELECTORS = [
+      /* Hero — animam em sequência logo no carregamento */
+      '#hero .hero__wordmark',
+      '#hero .hero__headline',
+      '#hero .hero__sub',
+      '#hero .hero__badge',
+      '#hero .hero__meta',
+      '#hero .btn-cta',
+      /* Seções abaixo do fold */
+      '.section-label',
+      '.section-title',
+      '.problema__text',
+      '.problema__item',
+      '.oque-e__body',
+      '.oque-e__stat',
+      '.metodo__card',
+      '.cronograma__item',
+      '.palestrante__card',
+      '.inclui__item',
+      '.investimento__inner',
+      '.patrocinadores__list',
+      '.footer__inner',
+    ].join(', ');
+
+    var allEls = Array.from(document.querySelectorAll(SELECTORS));
+
+    /* Stagger para grupos de elementos irmãos dentro de um mesmo pai */
+    var STAGGER_GROUPS = [
+      '.problema__list',
+      '.oque-e__numbers',
+      '.metodo__grid',
+      '.cronograma',
+      '.palestrantes__grid',
+      '.inclui__grid',
+    ];
+
+    STAGGER_GROUPS.forEach(function (parentSel) {
+      var parent = document.querySelector(parentSel);
+      if (!parent) return;
+      Array.from(parent.children).forEach(function (child, i) {
+        child.dataset.revealDelay = i * 90;
+      });
+    });
+
+    /* Hero: stagger sequencial — cada elemento 110ms após o anterior */
+    var heroOrder = [
+      '#hero .hero__wordmark',
+      '#hero .hero__headline',
+      '#hero .hero__sub',
+      '#hero .hero__badge',
+      '#hero .hero__meta',
+      '#hero .btn-cta',
+    ];
+
+    heroOrder.forEach(function (sel, i) {
+      var el = document.querySelector(sel);
+      if (el) el.dataset.revealDelay = i * 110;
+    });
+
+    /* Marca todos como .reveal (estado inicial: invisível) */
+    allEls.forEach(function (el) { el.classList.add('reveal'); });
+
+    /* Fallback: sem IntersectionObserver → tudo visível imediatamente */
+    if (!('IntersectionObserver' in window)) {
+      allEls.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el    = entry.target;
+        var delay = parseInt(el.dataset.revealDelay || '0', 10);
+        setTimeout(function () {
+          el.classList.add('is-visible');
+        }, delay);
+        revealObserver.unobserve(el); /* anima apenas uma vez */
+      });
+    }, {
+      threshold:  0.1,
+      rootMargin: '0px 0px -32px 0px',
+    });
+
+    allEls.forEach(function (el) { revealObserver.observe(el); });
+
+  }());
+  </script>
 
 </body>
 </html>
