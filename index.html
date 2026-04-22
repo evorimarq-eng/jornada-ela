@@ -743,11 +743,122 @@
       background: var(--bg-alt);
     }
 
-    .palestrantes__header { /* título centrado */ }
-    .palestrantes__grid   { /* 3 colunas */ }
-    .palestrante__card    { /* card por pessoa */ }
-    .palestrante__photo   { /* área da foto / placeholder */ }
-    .palestrante__info    { /* bloco · nome · cargo · bio */ }
+    .palestrantes__header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .palestrantes__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .palestrante__card {
+      background: var(--bg-card);
+      overflow: hidden;
+    }
+
+    /* Área da foto */
+    .palestrante__photo {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: #1a1917;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .palestrante__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .palestrante__card:hover .palestrante__photo img {
+      transform: scale(1.03);
+    }
+
+    /* Placeholder para quando a foto não existe */
+    .palestrante__photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--gray-800);
+    }
+
+    .palestrante__photo-placeholder svg {
+      width: 36px;
+      height: 36px;
+      stroke: var(--gray-800);
+      fill: none;
+      stroke-width: 1.2;
+    }
+
+    .palestrante__photo-placeholder span {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-800);
+    }
+
+    /* Faixa dourada no topo do card info */
+    .palestrante__info {
+      padding: 28px 28px 32px;
+      border-top: 2px solid var(--gold);
+    }
+
+    .palestrante__bloco {
+      display: block;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .palestrante__nome {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .palestrante__cargo {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .palestrante__bio {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.7;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    @media (max-width: 900px) {
+      .palestrantes__grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin-inline: auto;
+      }
+
+      .palestrante__photo {
+        aspect-ratio: 4 / 3;
+      }
+    }
 
 
     /* ============================================================
@@ -1194,6 +1305,99 @@
   ============================================================ -->
   <section id="palestrantes">
     <div class="container">
+
+      <div class="palestrantes__header">
+        <span class="section-label">Quem apresenta</span>
+        <h2 class="section-title">As especialistas</h2>
+      </div>
+
+      <div class="palestrantes__grid">
+
+        <!-- Dra. Carolina Silva — Bloco Estrutura -->
+        <article class="palestrante__card">
+          <div class="palestrante__photo">
+            <!--
+              TODO: descomente a linha abaixo e apague o placeholder
+              quando a foto estiver disponível.
+              <img src="[FOTO_CAROLINA]" alt="Dra. Carolina Silva">
+            -->
+            <div class="palestrante__photo-placeholder" aria-label="Foto de Dra. Carolina Silva a inserir">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.866 3.582-7 8-7s8 3.134 8 7"/></svg>
+              <span>[FOTO_CAROLINA]</span>
+            </div>
+          </div>
+          <div class="palestrante__info">
+            <span class="palestrante__bloco">Bloco Estrutura</span>
+            <h3 class="palestrante__nome">Dra. Carolina Silva</h3>
+            <p class="palestrante__cargo">
+              Advogada criminalista<br>
+              Sócia fundadora · CS Advogadas
+            </p>
+            <p class="palestrante__bio">
+              Construiu sua trajetória sobre organização e método.
+              Compartilha como transformar a gestão do escritório
+              em vantagem competitiva real.
+            </p>
+          </div>
+        </article>
+
+        <!-- Evelyn Soeiro — Bloco Autoridade -->
+        <article class="palestrante__card">
+          <div class="palestrante__photo">
+            <!--
+              TODO: descomente a linha abaixo e apague o placeholder
+              quando a foto estiver disponível.
+              <img src="[FOTO_EVELYN]" alt="Evelyn Soeiro">
+            -->
+            <div class="palestrante__photo-placeholder" aria-label="Foto de Evelyn Soeiro a inserir">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.866 3.582-7 8-7s8 3.134 8 7"/></svg>
+              <span>[FOTO_EVELYN]</span>
+            </div>
+          </div>
+          <div class="palestrante__info">
+            <span class="palestrante__bloco">Bloco Autoridade</span>
+            <h3 class="palestrante__nome">Evelyn Soeiro</h3>
+            <p class="palestrante__cargo">
+              Fundadora · Evori Marq<br>
+              Especialista em posicionamento jurídico
+            </p>
+            <p class="palestrante__bio">
+              Mais de 6 anos em direito criminal antes de migrar para
+              o marketing. Hoje ajuda advogados a construírem presença
+              e reputação com estratégia.
+            </p>
+          </div>
+        </article>
+
+        <!-- Ana Diniz — Bloco Linguagem -->
+        <article class="palestrante__card">
+          <div class="palestrante__photo">
+            <!--
+              TODO: descomente a linha abaixo e apague o placeholder
+              quando a foto estiver disponível.
+              <img src="[FOTO_ANA]" alt="Ana Diniz">
+            -->
+            <div class="palestrante__photo-placeholder" aria-label="Foto de Ana Diniz a inserir">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.866 3.582-7 8-7s8 3.134 8 7"/></svg>
+              <span>[FOTO_ANA]</span>
+            </div>
+          </div>
+          <div class="palestrante__info">
+            <span class="palestrante__bloco">Bloco Linguagem</span>
+            <h3 class="palestrante__nome">Ana Diniz</h3>
+            <p class="palestrante__cargo">
+              Especialista em comunicação e oratória<br>
+              Servidora do TJSP
+            </p>
+            <p class="palestrante__bio">
+              Trabalha com oratória e comunicação profissional aplicadas
+              ao universo jurídico. Ensina como se posicionar com
+              autenticidade em qualquer contexto.
+            </p>
+          </div>
+        </article>
+
+      </div>
     </div>
   </section>
 
