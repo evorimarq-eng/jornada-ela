@@ -245,23 +245,25 @@ def draw_page1(c: canvas.Canvas) -> None:
     # ── Painel esquerdo — conteúdo ───────────────────────────────────────
     left_cx = LEFT_W / 2
 
-    # "BARKLEY" rotacionado 90° — vertical, centro da altura
+    # "BARKLEY" rotacionado 90° — ocupa a faixa central-vertical do painel
+    # A 68pt, "BARKLEY" tem ~310pt de largura → rotacionado fica ~310pt alto
+    # Faixa y: H/2 ± 155  →  aprox 142 a 452
     c.saveState()
     c.setFillColor(GOLD_LT)
     c.setFont("Helvetica-Bold", 68)
-    c.translate(left_cx - 10, H / 2)
+    c.translate(left_cx + 6, H / 2)
     c.rotate(90)
     barkley_w = c.stringWidth("BARKLEY", "Helvetica-Bold", 68)
     c.drawString(-barkley_w / 2, 0, "BARKLEY")
     c.restoreState()
 
-    # "CIGAR" com tracking — abaixo do centro
-    cigar_y = H / 2 - 54
+    # "CIGAR" com tracking — zona inferior do painel (abaixo da faixa do BARKLEY)
+    cigar_y = 112
     draw_spaced_string(c, "CIGAR", left_cx, cigar_y,
                        "Helvetica", 18, TXT, spacing=8.0)
 
-    # Tagline em itálico
-    tagline_y = cigar_y - 20
+    # Tagline em itálico — imediatamente abaixo de CIGAR
+    tagline_y = cigar_y - 18
     c.saveState()
     c.setFillColor(MIST)
     c.setFont("Helvetica-Oblique", 9)
@@ -718,24 +720,23 @@ def draw_page6(c: canvas.Canvas) -> None:
 
     cx = W / 2
 
-    # ── Logo branco — metade superior, ~35% da altura ─────────────────────
-    logo_h_target = H * 0.35
+    # ── Logo branco — terço superior, altura 22% da página ───────────────
+    # Reduzido de 35% → 22% para liberar espaço abaixo
+    logo_h_target = H * 0.22
     if LOGO_W.exists():
         ir = ImageReader(str(LOGO_W))
         iw, ih = ir.getSize()
         scale  = logo_h_target / ih
         lw     = iw * scale
         lh     = logo_h_target
-        logo_y = H * 0.50
+        logo_y = H * 0.70          # bottom da imagem — logo vai de 70% a 92% da altura
         c.saveState()
         c.drawImage(str(LOGO_W), cx - lw / 2, logo_y, lw, lh,
                     mask="auto", preserveAspectRatio=True)
         c.restoreState()
-    else:
-        logo_y = H * 0.50
 
     # ── "BARKLEY" ────────────────────────────────────────────────────────
-    barkley_y = H * 0.46
+    barkley_y = H * 0.63
     c.saveState()
     c.setFillColor(TXT)
     c.setFont("Helvetica-Bold", 60)
@@ -744,7 +745,7 @@ def draw_page6(c: canvas.Canvas) -> None:
     c.restoreState()
 
     # ── "CIGAR" com tracking ──────────────────────────────────────────────
-    cigar_y = barkley_y - 26
+    cigar_y = barkley_y - 28
     draw_spaced_string(c, "CIGAR", cx, cigar_y,
                        "Helvetica", 14, TXT, spacing=8.0)
 
@@ -760,11 +761,11 @@ def draw_page6(c: canvas.Canvas) -> None:
 
     # ── Grid 2×2 de cards de contato ─────────────────────────────────────
     CARD_W   = W * 0.20
-    CARD_H   = 72
-    CARD_GAP = 16
+    CARD_H   = 62           # reduzido de 72 para ganhar espaço vertical
+    CARD_GAP = 14
     GRID_W   = CARD_W * 2 + CARD_GAP
     GRID_X   = cx - GRID_W / 2
-    GRID_Y   = tag_y - CARD_H - 28
+    GRID_Y   = tag_y - CARD_H - 20
 
     contacts = [
         ("@",   "@barkley.oficial",         "Siga-nos. Faça parte da\ncomunidade Barkley."),
@@ -788,28 +789,29 @@ def draw_page6(c: canvas.Canvas) -> None:
         c.rect(kx, ky, CARD_W, CARD_H, stroke=1, fill=0)
         c.restoreState()
 
-        pad = 12
+        pad = 10
         # Ícone
         c.saveState()
         c.setFillColor(GOLD)
-        c.setFont("Helvetica-Bold", 16)
-        c.drawString(kx + pad, ky + CARD_H - pad - 16, icon)
+        c.setFont("Helvetica-Bold", 14)
+        c.drawString(kx + pad, ky + CARD_H - pad - 14, icon)
         c.restoreState()
 
         # Título
         c.saveState()
         c.setFillColor(TXT)
-        c.setFont("Helvetica-Bold", 9)
-        c.drawString(kx + pad, ky + CARD_H - pad - 32, title)
+        c.setFont("Helvetica-Bold", 8.5)
+        c.drawString(kx + pad, ky + CARD_H - pad - 28, title)
         c.restoreState()
 
         # Corpo
-        draw_text_block(c, body, kx + pad, ky + CARD_H - pad - 46,
-                        CARD_W - pad * 2, "Helvetica", 7, CREAM, leading=11)
+        draw_text_block(c, body, kx + pad, ky + CARD_H - pad - 40,
+                        CARD_W - pad * 2, "Helvetica", 6.5, CREAM, leading=10)
 
     # ── Frase de encerramento ─────────────────────────────────────────────
     closing_w  = W * 0.70
-    closing_y  = GRID_Y - CARD_H - 28
+    # GRID_Y é o bottom da 1ª linha de cards; 2ª linha: GRID_Y - (CARD_H + 10)
+    closing_y  = GRID_Y - (CARD_H + 10) - 20
     closing_txt = ("Seja bem-vindo ao universo Barkley. Cada charuto que você acende é uma extensão "
                    "de quem você é — uma declaração de bom gosto, de presença e de autenticidade. "
                    "Obrigado por escolher o melhor.")
