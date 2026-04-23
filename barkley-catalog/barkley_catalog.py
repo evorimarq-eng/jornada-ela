@@ -168,14 +168,16 @@ def draw_text_block(c: canvas.Canvas, text: str, x: float, y: float,
 
 def draw_image_centered(c: canvas.Canvas, img_path: Path,
                         cx: float, cy: float, target_w: float,
-                        alpha: float = 1.0) -> None:
-    """Desenha imagem centralizada em (cx, cy) com largura target_w."""
+                        alpha: float = 1.0, max_h: float = None) -> None:
+    """Desenha imagem centralizada em (cx, cy) respeitando target_w e max_h."""
     if not img_path.exists():
         return
     ir = ImageReader(str(img_path))
     iw, ih = ir.getSize()
-    scale = target_w / iw
-    tw = target_w
+    scale_w = target_w / iw
+    scale_h = (max_h / ih) if max_h else scale_w
+    scale   = min(scale_w, scale_h)
+    tw = iw * scale
     th = ih * scale
     c.saveState()
     if alpha < 1.0:
@@ -231,13 +233,13 @@ def draw_page1(c: canvas.Canvas) -> None:
     ghost_w = RIGHT_W * 0.60
     draw_image_centered(c, LOGO_G,
                         RIGHT_X + RIGHT_W / 2, H / 2,
-                        ghost_w, alpha=0.06)
+                        ghost_w, alpha=0.06, max_h=H * 0.75)
 
     # ── Logo branco centralizado no painel direito ───────────────────────
     logo_w = RIGHT_W * 0.55
     draw_image_centered(c, LOGO_W,
                         RIGHT_X + RIGHT_W / 2, H / 2,
-                        logo_w, alpha=1.0)
+                        logo_w, alpha=1.0, max_h=H * 0.75)
 
     # ── Corner marks no painel direito ──────────────────────────────────
     draw_corner_marks(c, RIGHT_X + 12, 12, RIGHT_W - 24, H - 24, size=20)
@@ -379,7 +381,7 @@ def draw_page2(c: canvas.Canvas) -> None:
 
     # ── Logo dourado pequeno — margem direita, meio da página ─────────────
     logo_right_cx = W - 70
-    draw_image_centered(c, LOGO_G, logo_right_cx, H / 2 - 10, 60, alpha=0.85)
+    draw_image_centered(c, LOGO_G, logo_right_cx, H / 2 - 10, 60, alpha=0.85, max_h=150)
 
 
 def draw_page3(c: canvas.Canvas) -> None:
