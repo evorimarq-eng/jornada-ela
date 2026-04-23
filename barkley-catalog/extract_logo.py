@@ -1,18 +1,36 @@
+"""
+Extrai logo Barkley de PDF ou PNG e gera logo_white.png e logo_gold.png.
+Aceita: logo.pdf  OU  logo_source.png (PNG com fundo branco)
+"""
+
 import sys
 import numpy as np
 from pathlib import Path
-from pdf2image import convert_from_path
 from PIL import Image
 
-LOGO_PDF = Path(__file__).parent / "logo.pdf"
-OUT_WHITE = Path(__file__).parent / "logo_white.png"
-OUT_GOLD  = Path(__file__).parent / "logo_gold.png"
+BASE      = Path(__file__).parent
+LOGO_PDF  = BASE / "logo.pdf"
+LOGO_PNG  = BASE / "logo_source.png"
+OUT_WHITE = BASE / "logo_white.png"
+OUT_GOLD  = BASE / "logo_gold.png"
 GOLD_RGB  = (191, 155, 48)
 DPI       = 300
 
 
+def remove_white_bg(arr: np.ndarray, threshold: int = 240) -> np.ndarray:
+    """Converte pixels quase-brancos em transparentes."""
+    out = arr.copy()
+    white_mask = (
+        (out[:, :, 0] > threshold) &
+        (out[:, :, 1] > threshold) &
+        (out[:, :, 2] > threshold)
+    )
+    out[white_mask, 3] = 0
+    return out
+
+
 def smart_crop(rgba: np.ndarray) -> np.ndarray:
-    """Crop to bounding box of non-transparent pixels."""
+    """Crop para bounding box dos pixels não-transparentes."""
     alpha = rgba[:, :, 3]
     rows = np.any(alpha > 0, axis=1)
     cols = np.any(alpha > 0, axis=0)
@@ -24,42 +42,52 @@ def smart_crop(rgba: np.ndarray) -> np.ndarray:
 
 
 def recolor(rgba: np.ndarray, target_rgb: tuple[int, int, int]) -> np.ndarray:
-    """Replace color of all opaque pixels with target_rgb, keep alpha."""
+    """Pinta todos os pixels opacos com target_rgb, preserva alpha."""
     out = rgba.copy()
-    mask = out[:, :, 3] > 0          # pixels não-transparentes
+    mask = out[:, :, 3] > 0
     out[mask, 0] = target_rgb[0]
     out[mask, 1] = target_rgb[1]
     out[mask, 2] = target_rgb[2]
     return out
 
 
+def load_source() -> np.ndarray:
+    """Carrega de logo.pdf ou logo_source.png, retorna array RGBA."""
+    if LOGO_PDF.exists():
+        from pdf2image import convert_from_path
+        print(f"Convertendo {LOGO_PDF} @ {DPI} DPI...")
+        pages = convert_from_path(str(LOGO_PDF), dpi=DPI, transparent=True)
+        img = pages[0].convert("RGBA")
+        arr = np.array(img)
+        if arr[:, :, 3].min() == 255:
+            print("PDF sem canal alpha — removendo fundo branco...")
+            arr = remove_white_bg(arr)
+        return arr
+
+    if LOGO_PNG.exists():
+        print(f"Carregando {LOGO_PNG}...")
+        img = Image.open(str(LOGO_PNG)).convert("RGBA")
+        arr = np.array(img)
+        # PNG com fundo branco sólido
+        if arr[:, :, 3].min() == 255:
+            print("PNG sem transparência — removendo fundo branco...")
+            arr = remove_white_bg(arr)
+        return arr
+
+    print("ERRO: nenhum arquivo fonte encontrado.")
+    print(f"  Esperado: {LOGO_PDF}  OU  {LOGO_PNG}")
+    sys.exit(1)
+
+
 def main() -> None:
-    if not LOGO_PDF.exists():
-        print(f"ERRO: {LOGO_PDF} não encontrado.")
-        print("Coloque o logo.pdf na pasta barkley-catalog/ e execute novamente.")
-        sys.exit(1)
-
-    print(f"Convertendo {LOGO_PDF} @ {DPI} DPI...")
-    pages = convert_from_path(str(LOGO_PDF), dpi=DPI, transparent=True)
-    img = pages[0].convert("RGBA")
-
-    arr = np.array(img)
-
-    # Se vier sem canal alpha real (fundo branco), converte fundo branco → transparente
-    if arr[:, :, 3].min() == 255:
-        print("PDF sem transparência — convertendo fundo branco em transparente...")
-        white_mask = (arr[:, :, 0] > 240) & (arr[:, :, 1] > 240) & (arr[:, :, 2] > 240)
-        arr[white_mask, 3] = 0
-
+    arr = load_source()
     arr = smart_crop(arr)
     print(f"Tamanho após crop: {arr.shape[1]}x{arr.shape[0]} px")
 
-    white_arr = recolor(arr, (255, 255, 255))
-    Image.fromarray(white_arr).save(OUT_WHITE, "PNG")
+    Image.fromarray(recolor(arr, (255, 255, 255))).save(OUT_WHITE, "PNG")
     print(f"Salvo: {OUT_WHITE}")
 
-    gold_arr = recolor(arr, GOLD_RGB)
-    Image.fromarray(gold_arr).save(OUT_GOLD, "PNG")
+    Image.fromarray(recolor(arr, GOLD_RGB)).save(OUT_GOLD, "PNG")
     print(f"Salvo: {OUT_GOLD}")
 
     print("Concluído.")
