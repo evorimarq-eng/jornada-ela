@@ -287,52 +287,27 @@
       margin-bottom: 24px;
     }
 
-    /* ── CHAVE PIX ── */
-    .pix-chave-block {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--gold-border);
-      border-radius: 8px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .pix-chave-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gray-600);
-      margin-bottom: 2px;
-    }
-
-    .pix-chave-value {
-      font-size: 14px;
-      color: var(--gray-300);
-      word-break: break-all;
-    }
-
+    /* ── COPIAR PAYLOAD PIX ── */
     #btn-copiar {
-      flex-shrink: 0;
+      display: block;
+      width: 100%;
       background: var(--gold);
       color: #0a0f2e;
       font-family: var(--sans);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       border: none;
-      border-radius: 5px;
-      padding: 8px 14px;
+      border-radius: 6px;
+      padding: 14px 24px;
       cursor: pointer;
-      transition: background 0.2s ease;
-      white-space: nowrap;
+      transition: background 0.2s ease, transform 0.1s ease;
+      margin-bottom: 20px;
     }
 
     #btn-copiar:hover  { background: var(--gold-light); }
+    #btn-copiar:active { transform: scale(0.98); }
     #btn-copiar.copied { background: #3ab87a; color: #fff; }
 
     /* ── INSTRUÇÃO ── */
@@ -522,7 +497,7 @@
       <!-- ── PIX ── -->
       <div id="pix-section">
         <h2 class="card__title">Pague via Pix</h2>
-        <p class="card__sub">Escaneie o QR Code ou copie a chave abaixo.</p>
+        <p class="card__sub">Escaneie o QR Code ou copie o código abaixo.</p>
 
         <div class="qr-wrapper">
           <div id="qrcode"></div>
@@ -531,13 +506,7 @@
         <p class="pix-valor">R$ 59,90</p>
         <p class="pix-valor-label">Jornada ELA · 23 de maio de 2025</p>
 
-        <div class="pix-chave-block">
-          <div>
-            <p class="pix-chave-label">Chave Pix (e-mail)</p>
-            <p class="pix-chave-value">evelyn-evori@jim.com</p>
-          </div>
-          <button id="btn-copiar" type="button">Copiar</button>
-        </div>
+        <button id="btn-copiar" type="button">Copiar QR Code Pix</button>
 
         <p class="pix-instrucao">
           Após o pagamento, envie seu comprovante para o WhatsApp:<br>
@@ -701,20 +670,20 @@
       });
     });
 
-    /* ── Copiar chave Pix ── */
+    /* ── Copiar payload Pix ── */
     btnCopiar.addEventListener('click', function () {
       function feedback() {
         btnCopiar.textContent = 'Copiado!';
         btnCopiar.classList.add('copied');
         setTimeout(function () {
-          btnCopiar.textContent = 'Copiar';
+          btnCopiar.textContent = 'Copiar QR Code Pix';
           btnCopiar.classList.remove('copied');
-        }, 2500);
+        }, 2000);
       }
 
-      navigator.clipboard.writeText(PIX_CHAVE).then(feedback).catch(function () {
+      navigator.clipboard.writeText(PIX_PAYLOAD).then(feedback).catch(function () {
         var ta = document.createElement('textarea');
-        ta.value = PIX_CHAVE;
+        ta.value = PIX_PAYLOAD;
         ta.style.cssText = 'position:fixed;opacity:0';
         document.body.appendChild(ta);
         ta.select();
