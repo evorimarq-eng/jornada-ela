@@ -1059,24 +1059,46 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 12px 0;
+      gap: 32px 48px;
     }
 
     .patrocinador__item {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gray-800);
-      padding-inline: 28px;
-      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      padding-inline: 0;
+      transition: opacity 0.2s ease;
     }
 
-    /* Separador pontilhado entre nomes */
+    .patrocinador__item:hover {
+      opacity: 0.7;
+    }
+
+    /* Remove o separador · que era usado com texto puro */
     .patrocinador__item:not(:last-child)::after {
-      content: '·';
-      margin-left: 28px;
-      color: var(--gray-800);
+      content: none;
+    }
+
+    .patrocinador__logo {
+      height: 48px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.45;
+      transition: opacity 0.2s ease;
+    }
+
+    .patrocinador__item:hover .patrocinador__logo {
+      opacity: 0.7;
+    }
+
+    @media (max-width: 600px) {
+      .patrocinadores__list {
+        gap: 28px 36px;
+      }
+
+      .patrocinador__logo {
+        height: 36px;
+      }
     }
 
     .patrocinador__item:hover {
@@ -1812,11 +1834,18 @@
     <div class="container">
       <span class="patrocinadores__label">Realização e apoio</span>
       <ul class="patrocinadores__list">
-        <!-- TODO: substituir por tags <img> com os logos reais quando disponíveis -->
-        <li class="patrocinador__item">Evori Marq</li>
-        <li class="patrocinador__item">Expresso Matinal</li>
-        <li class="patrocinador__item">Ana Diniz Comunicações</li>
-        <li class="patrocinador__item">CS Advogadas</li>
+        <li class="patrocinador__item">
+          <img src="logo-evori.png" alt="Evori Marq" class="patrocinador__logo">
+        </li>
+        <li class="patrocinador__item">
+          <img src="logo-expresso.png" alt="Expresso Matinal" class="patrocinador__logo">
+        </li>
+        <li class="patrocinador__item">
+          <img src="logo-ana-diniz.png" alt="Ana Diniz Comunicações" class="patrocinador__logo">
+        </li>
+        <li class="patrocinador__item">
+          <img src="logo-cs-advogadas.png" alt="CS Advogadas" class="patrocinador__logo">
+        </li>
       </ul>
     </div>
   </section>
