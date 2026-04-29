@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout · Jornada ELA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0a0f2e;
+      --bg-card:    #111a45;
+      --gold:       #C49A3C;
+      --gold-light: #D4AF5A;
+      --white:      #ffffff;
+      --gray-300:   #c8cfe0;
+      --gray-600:   #7a85a8;
+      --gray-800:   #3d4566;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'DM Sans', system-ui, sans-serif;
+      --gold-border: rgba(196,154,60,0.2);
+      --radius:     10px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── CABEÇALHO ── */
+    header {
+      width: 100%;
+      border-bottom: 1px solid var(--gold-border);
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .wordmark {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--white);
+    }
+
+    .wordmark span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .header__sub {
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--gray-600);
+    }
+
+    /* ── CONTAINER ── */
+    main {
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 20px 64px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .card__title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .card__sub {
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-bottom: 28px;
+    }
+
+    /* ── FORMULÁRIO ── */
+    .form__group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .form__label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+    }
+
+    .form__input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form__input::placeholder { color: var(--gray-800); }
+
+    .form__input:focus {
+      border-color: var(--gold);
+    }
+
+    .form__input.error {
+      border-color: #e05a5a;
+    }
+
+    .form__error {
+      font-size: 12px;
+      color: #e05a5a;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .form__error.visible { display: block; }
+
+    /* ── BOTÕES ── */
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--gold);
+      color: #0a0f2e;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 6px;
+      padding: 16px 24px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--gold);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--gold-border);
+      border-radius: 6px;
+      padding: 12px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      background: rgba(196,154,60,0.08);
+      border-color: var(--gold);
+    }
+
+    /* ── SEÇÃO PIX (oculta inicialmente) ── */
+    #pix-section {
+      display: none;
+    }
+
+    #pix-section.visible {
+      display: block;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--gold-border);
+      margin: 28px 0;
+    }
+
+    /* ── QR CODE ── */
+    .qr-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    #qrcode {
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    #qrcode canvas,
+    #qrcode img {
+      display: block;
+    }
+
+    /* ── VALOR ── */
+    .pix-valor {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .pix-valor-label {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-600);
+      margin-bottom: 24px;
+    }
+
+    /* ── CHAVE PIX ── */
+    .pix-chave-block {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .pix-chave-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      margin-bottom: 2px;
+    }
+
+    .pix-chave-value {
+      font-size: 14px;
+      color: var(--gray-300);
+      word-break: break-all;
+    }
+
+    #btn-copiar {
+      flex-shrink: 0;
+      background: var(--gold);
+      color: #0a0f2e;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    #btn-copiar:hover { background: var(--gold-light); }
+    #btn-copiar.copied { background: #3ab87a; color: #fff; }
+
+    /* ── INSTRUÇÃO ── */
+    .pix-instrucao {
+      font-size: 13px;
+      color: var(--gray-600);
+      text-align: center;
+      line-height: 1.6;
+      margin: 20px 0 16px;
+    }
+
+    .pix-instrucao strong {
+      color: var(--gray-300);
+    }
+
+    /* ── BOTÃO WHATSAPP ── */
+    .btn-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #25d366;
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      border-radius: 6px;
+      padding: 14px 20px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .btn-whatsapp:hover { background: #1ebe5d; }
+
+    .btn-whatsapp svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── VOLTAR ── */
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--gray-800);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover { color: var(--gold); }
+
+    /* ── RESPONSIVO ── */
+    @media (max-width: 520px) {
+      .card { padding: 24px 18px; }
+      .pix-valor { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wordmark">Jornada <span>ELA</span></div>
+    <p class="header__sub">Garanta sua vaga · 23 de maio · Espaço MÖRE, Sorocaba/SP</p>
+  </header>
+
+  <main>
+    <div class="card">
+
+      <!-- ── FORMULÁRIO ── -->
+      <div id="form-section">
+        <h1 class="card__title">Inscrição</h1>
+        <p class="card__sub">Preencha seus dados para gerar o Pix de pagamento.</p>
+
+        <form id="checkout-form" novalidate>
+          <div class="form__group">
+            <div>
+              <label class="form__label" for="nome">Nome completo</label>
+              <input class="form__input" type="text" id="nome" name="nome" placeholder="Seu nome completo" autocomplete="name">
+              <p class="form__error" id="erro-nome">Informe seu nome completo.</p>
+            </div>
+            <div>
+              <label class="form__label" for="email">E-mail</label>
+              <input class="form__input" type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email">
+              <p class="form__error" id="erro-email">Informe um e-mail válido.</p>
+            </div>
+            <div>
+              <label class="form__label" for="telefone">Telefone / WhatsApp</label>
+              <input class="form__input" type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" autocomplete="tel">
+              <p class="form__error" id="erro-telefone">Informe seu telefone com DDD.</p>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">Gerar meu Pix</button>
+        </form>
+      </div>
+
+      <!-- ── PIX ── -->
+      <div id="pix-section">
+        <h2 class="card__title">Pague via Pix</h2>
+        <p class="card__sub">Escaneie o QR Code ou copie a chave abaixo.</p>
+
+        <div class="qr-wrapper">
+          <div id="qrcode"></div>
+        </div>
+
+        <p class="pix-valor">R$ 59,90</p>
+        <p class="pix-valor-label">Jornada ELA · 23 de maio de 2025</p>
+
+        <div class="pix-chave-block">
+          <div>
+            <p class="pix-chave-label">Chave Pix (e-mail)</p>
+            <p class="pix-chave-value">evelyn-evori@jim.com</p>
+          </div>
+          <button id="btn-copiar" type="button">Copiar</button>
+        </div>
+
+        <p class="pix-instrucao">
+          Após o pagamento, envie seu comprovante para o WhatsApp:<br>
+          <strong>(15) 99724-9951</strong>
+        </p>
+
+        <a
+          href="https://api.whatsapp.com/send/?phone=5515997249951&text&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener"
+          class="btn-whatsapp"
+        >
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Enviar comprovante
+        </a>
+      </div>
+
+    </div><!-- /.card -->
+
+    <a href="index.html" class="back-link">← Voltar para a página do evento</a>
+  </main>
+
+  <script>
+    var PIX_PAYLOAD = '00020101021226680014BR.GOV.BCB.PIX0120evelyn-evori@jim.com0222Pagamento evelyn-evori520400005303986540559.905802BR5925EVELYN FRANCIELLE OLIVEIR6008SOROCABA62290525QRCCDwJ0qvL7Idf89dBfqAzrr6304E920';
+    var PIX_CHAVE   = 'evelyn-evori@jim.com';
+
+    var form       = document.getElementById('checkout-form');
+    var formSec    = document.getElementById('form-section');
+    var pixSec     = document.getElementById('pix-section');
+    var btnCopiar  = document.getElementById('btn-copiar');
+    var qrGenerated = false;
+
+    function validateEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+
+    function validatePhone(v) {
+      return v.replace(/\D/g, '').length >= 10;
+    }
+
+    function setError(inputId, errorId, show) {
+      var input = document.getElementById(inputId);
+      var error = document.getElementById(errorId);
+      if (show) {
+        input.classList.add('error');
+        error.classList.add('visible');
+      } else {
+        input.classList.remove('error');
+        error.classList.remove('visible');
+      }
+      return !show;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var nome     = document.getElementById('nome').value;
+      var email    = document.getElementById('email').value;
+      var telefone = document.getElementById('telefone').value;
+
+      var ok = true;
+      ok = setError('nome',     'erro-nome',     nome.trim().split(' ').length < 2) && ok;
+      ok = setError('email',    'erro-email',    !validateEmail(email))              && ok;
+      ok = setError('telefone', 'erro-telefone', !validatePhone(telefone))           && ok;
+
+      if (!ok) return;
+
+      formSec.style.display = 'none';
+      pixSec.classList.add('visible');
+
+      if (!qrGenerated) {
+        new QRCode(document.getElementById('qrcode'), {
+          text:          PIX_PAYLOAD,
+          width:         200,
+          height:        200,
+          colorDark:     '#000000',
+          colorLight:    '#ffffff',
+          correctLevel:  QRCode.CorrectLevel.M,
+        });
+        qrGenerated = true;
+      }
+    });
+
+    /* Limpa erro ao digitar */
+    ['nome', 'email', 'telefone'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', function () {
+        this.classList.remove('error');
+        var errEl = document.getElementById('erro-' + id);
+        if (errEl) errEl.classList.remove('visible');
+      });
+    });
+
+    /* Copiar chave Pix */
+    btnCopiar.addEventListener('click', function () {
+      navigator.clipboard.writeText(PIX_CHAVE).then(function () {
+        btnCopiar.textContent = 'Copiado!';
+        btnCopiar.classList.add('copied');
+        setTimeout(function () {
+          btnCopiar.textContent = 'Copiar';
+          btnCopiar.classList.remove('copied');
+        }, 2500);
+      }).catch(function () {
+        /* Fallback para browsers sem clipboard API */
+        var ta = document.createElement('textarea');
+        ta.value = PIX_CHAVE;
+        ta.style.position = 'fixed';
+        ta.style.opacity  = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btnCopiar.textContent = 'Copiado!';
+        btnCopiar.classList.add('copied');
+        setTimeout(function () {
+          btnCopiar.textContent = 'Copiar';
+          btnCopiar.classList.remove('copied');
+        }, 2500);
+      });
+    });
+
+    /* Máscara simples de telefone */
+    document.getElementById('telefone').addEventListener('input', function () {
+      var v = this.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 6) {
+        v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+      } else if (v.length > 2) {
+        v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+      } else if (v.length > 0) {
+        v = '(' + v;
+      }
+      this.value = v;
+    });
+  </script>
+
+</body>
+</html>
