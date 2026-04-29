@@ -126,14 +126,8 @@
     }
 
     .form__input::placeholder { color: var(--gray-800); }
-
-    .form__input:focus {
-      border-color: var(--gold);
-    }
-
-    .form__input.error {
-      border-color: #e05a5a;
-    }
+    .form__input:focus        { border-color: var(--gold); }
+    .form__input.error        { border-color: #e05a5a; }
 
     .form__error {
       font-size: 12px;
@@ -141,10 +135,87 @@
       margin-top: 4px;
       display: none;
     }
-
     .form__error.visible { display: block; }
 
-    /* ── BOTÕES ── */
+    /* ── SELEÇÃO DE PAGAMENTO ── */
+    .payment-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      margin-bottom: 10px;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .payment-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 14px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      font-family: var(--sans);
+    }
+
+    .payment-btn:hover {
+      border-color: var(--gold-border);
+      background: rgba(196,154,60,0.04);
+    }
+
+    .payment-btn.active {
+      border-color: var(--gold);
+      background: rgba(196,154,60,0.08);
+    }
+
+    .payment-btn__icon {
+      width: 22px;
+      height: 22px;
+      stroke: var(--gray-600);
+      fill: none;
+      stroke-width: 1.5;
+      transition: stroke 0.2s ease;
+    }
+
+    .payment-btn.active .payment-btn__icon {
+      stroke: var(--gold);
+    }
+
+    .payment-btn__name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      transition: color 0.2s ease;
+    }
+
+    .payment-btn.active .payment-btn__name {
+      color: var(--gold);
+    }
+
+    .payment-btn__price {
+      font-size: 11px;
+      color: var(--gray-800);
+      transition: color 0.2s ease;
+    }
+
+    .payment-btn.active .payment-btn__price {
+      color: var(--gold-light);
+    }
+
+    /* ── BOTÕES DE AÇÃO ── */
     .btn-primary {
       display: block;
       width: 100%;
@@ -162,39 +233,17 @@
       transition: background 0.2s ease, transform 0.1s ease;
     }
 
-    .btn-primary:hover { background: var(--gold-light); }
+    .btn-primary:hover  { background: var(--gold-light); }
     .btn-primary:active { transform: scale(0.98); }
 
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: transparent;
-      color: var(--gold);
-      font-family: var(--sans);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      border: 1px solid var(--gold-border);
-      border-radius: 6px;
-      padding: 12px 20px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s ease, border-color 0.2s ease;
-    }
-
-    .btn-outline:hover {
-      background: rgba(196,154,60,0.08);
-      border-color: var(--gold);
-    }
-
-    /* ── SEÇÃO PIX (oculta inicialmente) ── */
-    #pix-section {
+    /* ── SEÇÕES DE RESULTADO (ocultas inicialmente) ── */
+    #pix-section,
+    #cartao-section {
       display: none;
     }
 
-    #pix-section.visible {
+    #pix-section.visible,
+    #cartao-section.visible {
       display: block;
     }
 
@@ -219,9 +268,7 @@
     }
 
     #qrcode canvas,
-    #qrcode img {
-      display: block;
-    }
+    #qrcode img { display: block; }
 
     /* ── VALOR ── */
     .pix-valor {
@@ -285,7 +332,7 @@
       white-space: nowrap;
     }
 
-    #btn-copiar:hover { background: var(--gold-light); }
+    #btn-copiar:hover  { background: var(--gold-light); }
     #btn-copiar.copied { background: #3ab87a; color: #fff; }
 
     /* ── INSTRUÇÃO ── */
@@ -297,9 +344,7 @@
       margin: 20px 0 16px;
     }
 
-    .pix-instrucao strong {
-      color: var(--gray-300);
-    }
+    .pix-instrucao strong { color: var(--gray-300); }
 
     /* ── BOTÃO WHATSAPP ── */
     .btn-whatsapp {
@@ -328,6 +373,72 @@
       flex-shrink: 0;
     }
 
+    /* ── SEÇÃO CARTÃO ── */
+    .cartao-info {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .cartao-valor {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .cartao-valor-label {
+      font-size: 12px;
+      color: var(--gray-600);
+    }
+
+    .btn-cartao {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: var(--gold);
+      color: #0a0f2e;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      padding: 16px 24px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-cartao:hover  { background: var(--gold-light); }
+    .btn-cartao:active { transform: scale(0.98); }
+
+    .btn-cartao svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      flex-shrink: 0;
+    }
+
+    /* ── ALTERAR MÉTODO ── */
+    .change-method {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--gray-800);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--sans);
+      transition: color 0.2s ease;
+    }
+
+    .change-method:hover { color: var(--gold); }
+
     /* ── VOLTAR ── */
     .back-link {
       display: block;
@@ -343,8 +454,9 @@
 
     /* ── RESPONSIVO ── */
     @media (max-width: 520px) {
-      .card { padding: 24px 18px; }
-      .pix-valor { font-size: 28px; }
+      .card         { padding: 24px 18px; }
+      .pix-valor,
+      .cartao-valor { font-size: 28px; }
     }
   </style>
 </head>
@@ -361,7 +473,7 @@
       <!-- ── FORMULÁRIO ── -->
       <div id="form-section">
         <h1 class="card__title">Inscrição</h1>
-        <p class="card__sub">Preencha seus dados para gerar o Pix de pagamento.</p>
+        <p class="card__sub">Preencha seus dados e escolha a forma de pagamento.</p>
 
         <form id="checkout-form" novalidate>
           <div class="form__group">
@@ -382,7 +494,28 @@
             </div>
           </div>
 
-          <button type="submit" class="btn-primary">Gerar meu Pix</button>
+          <!-- Seleção de forma de pagamento -->
+          <p class="payment-label">Forma de pagamento</p>
+          <div class="payment-methods">
+            <button type="button" class="payment-btn active" id="btn-metodo-pix" aria-pressed="true">
+              <svg class="payment-btn__icon" viewBox="0 0 24 24">
+                <path d="M7 10h10M7 14h6" stroke-linecap="round"/>
+                <rect x="3" y="6" width="18" height="13" rx="2"/>
+              </svg>
+              <span class="payment-btn__name">Pix</span>
+              <span class="payment-btn__price">R$ 59,90</span>
+            </button>
+            <button type="button" class="payment-btn" id="btn-metodo-cartao" aria-pressed="false">
+              <svg class="payment-btn__icon" viewBox="0 0 24 24">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <path d="M2 10h20" stroke-linecap="round"/>
+              </svg>
+              <span class="payment-btn__name">Cartão</span>
+              <span class="payment-btn__price">Crédito</span>
+            </button>
+          </div>
+
+          <button type="submit" class="btn-primary" id="btn-submit">Gerar meu Pix</button>
         </form>
       </div>
 
@@ -420,6 +553,34 @@
           <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           Enviar comprovante
         </a>
+
+        <button class="change-method" id="btn-voltar-pix">← Alterar forma de pagamento</button>
+      </div>
+
+      <!-- ── CARTÃO ── -->
+      <div id="cartao-section">
+        <h2 class="card__title">Pagamento por Cartão</h2>
+        <p class="card__sub">Você será redirecionada para a página segura de pagamento.</p>
+
+        <div class="cartao-info">
+          <p class="cartao-valor">R$ 59,90</p>
+          <p class="cartao-valor-label">Jornada ELA · 23 de maio de 2025</p>
+        </div>
+
+        <a
+          href="https://invoice.infinitepay.io/plans/evelyn-evori/7keAIQsKN3"
+          target="_blank"
+          rel="noopener"
+          class="btn-cartao"
+        >
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <path d="M2 10h20" stroke-linecap="round"/>
+          </svg>
+          Pagar com cartão
+        </a>
+
+        <button class="change-method" id="btn-voltar-cartao">← Alterar forma de pagamento</button>
       </div>
 
     </div><!-- /.card -->
@@ -431,12 +592,40 @@
     var PIX_PAYLOAD = '00020101021226680014BR.GOV.BCB.PIX0120evelyn-evori@jim.com0222Pagamento evelyn-evori520400005303986540559.905802BR5925EVELYN FRANCIELLE OLIVEIR6008SOROCABA62290525QRCCDwJ0qvL7Idf89dBfqAzrr6304E920';
     var PIX_CHAVE   = 'evelyn-evori@jim.com';
 
-    var form       = document.getElementById('checkout-form');
-    var formSec    = document.getElementById('form-section');
-    var pixSec     = document.getElementById('pix-section');
-    var btnCopiar  = document.getElementById('btn-copiar');
-    var qrGenerated = false;
+    var selectedMethod = 'pix';
+    var qrGenerated    = false;
 
+    var form        = document.getElementById('checkout-form');
+    var formSec     = document.getElementById('form-section');
+    var pixSec      = document.getElementById('pix-section');
+    var cartaoSec   = document.getElementById('cartao-section');
+    var btnSubmit   = document.getElementById('btn-submit');
+    var btnCopiar   = document.getElementById('btn-copiar');
+    var btnMetPix   = document.getElementById('btn-metodo-pix');
+    var btnMetCard  = document.getElementById('btn-metodo-cartao');
+
+    /* ── Seleção de método ── */
+    function selectMethod(method) {
+      selectedMethod = method;
+      if (method === 'pix') {
+        btnMetPix.classList.add('active');
+        btnMetPix.setAttribute('aria-pressed', 'true');
+        btnMetCard.classList.remove('active');
+        btnMetCard.setAttribute('aria-pressed', 'false');
+        btnSubmit.textContent = 'Gerar meu Pix';
+      } else {
+        btnMetCard.classList.add('active');
+        btnMetCard.setAttribute('aria-pressed', 'true');
+        btnMetPix.classList.remove('active');
+        btnMetPix.setAttribute('aria-pressed', 'false');
+        btnSubmit.textContent = 'Continuar';
+      }
+    }
+
+    btnMetPix.addEventListener('click',  function () { selectMethod('pix'); });
+    btnMetCard.addEventListener('click', function () { selectMethod('cartao'); });
+
+    /* ── Validação ── */
     function validateEmail(v) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
     }
@@ -458,6 +647,7 @@
       return !show;
     }
 
+    /* ── Submit ── */
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -473,22 +663,36 @@
       if (!ok) return;
 
       formSec.style.display = 'none';
-      pixSec.classList.add('visible');
 
-      if (!qrGenerated) {
-        new QRCode(document.getElementById('qrcode'), {
-          text:          PIX_PAYLOAD,
-          width:         200,
-          height:        200,
-          colorDark:     '#000000',
-          colorLight:    '#ffffff',
-          correctLevel:  QRCode.CorrectLevel.M,
-        });
-        qrGenerated = true;
+      if (selectedMethod === 'pix') {
+        pixSec.classList.add('visible');
+        if (!qrGenerated) {
+          new QRCode(document.getElementById('qrcode'), {
+            text:         PIX_PAYLOAD,
+            width:        200,
+            height:       200,
+            colorDark:    '#000000',
+            colorLight:   '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+          qrGenerated = true;
+        }
+      } else {
+        cartaoSec.classList.add('visible');
       }
     });
 
-    /* Limpa erro ao digitar */
+    /* ── Voltar ao formulário ── */
+    function voltarFormulario() {
+      pixSec.classList.remove('visible');
+      cartaoSec.classList.remove('visible');
+      formSec.style.display = '';
+    }
+
+    document.getElementById('btn-voltar-pix').addEventListener('click',    voltarFormulario);
+    document.getElementById('btn-voltar-cartao').addEventListener('click',  voltarFormulario);
+
+    /* ── Limpa erro ao digitar ── */
     ['nome', 'email', 'telefone'].forEach(function (id) {
       document.getElementById(id).addEventListener('input', function () {
         this.classList.remove('error');
@@ -497,35 +701,30 @@
       });
     });
 
-    /* Copiar chave Pix */
+    /* ── Copiar chave Pix ── */
     btnCopiar.addEventListener('click', function () {
-      navigator.clipboard.writeText(PIX_CHAVE).then(function () {
+      function feedback() {
         btnCopiar.textContent = 'Copiado!';
         btnCopiar.classList.add('copied');
         setTimeout(function () {
           btnCopiar.textContent = 'Copiar';
           btnCopiar.classList.remove('copied');
         }, 2500);
-      }).catch(function () {
-        /* Fallback para browsers sem clipboard API */
+      }
+
+      navigator.clipboard.writeText(PIX_CHAVE).then(feedback).catch(function () {
         var ta = document.createElement('textarea');
         ta.value = PIX_CHAVE;
-        ta.style.position = 'fixed';
-        ta.style.opacity  = '0';
+        ta.style.cssText = 'position:fixed;opacity:0';
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-        btnCopiar.textContent = 'Copiado!';
-        btnCopiar.classList.add('copied');
-        setTimeout(function () {
-          btnCopiar.textContent = 'Copiar';
-          btnCopiar.classList.remove('copied');
-        }, 2500);
+        feedback();
       });
     });
 
-    /* Máscara simples de telefone */
+    /* ── Máscara de telefone ── */
     document.getElementById('telefone').addEventListener('input', function () {
       var v = this.value.replace(/\D/g, '').slice(0, 11);
       if (v.length > 6) {
